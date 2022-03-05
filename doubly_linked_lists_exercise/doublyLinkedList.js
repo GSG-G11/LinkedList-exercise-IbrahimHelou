@@ -17,41 +17,149 @@ function DoublyLinkedList(array = []){
 }
 
 DoublyLinkedList.prototype.push = function(val){
-    
+    let newNode = new Node(val);
+
+    if(this.head == null){
+      this.head = newNode;
+      this.tail = this.head;
+    }else{
+        this.tail.next = newNode;
+        this.tail.prev = this.tail;
+        this.tail = newNode;
+        
+
+    }
+
+    this.length++
+    return this;
+
 }
 
 DoublyLinkedList.prototype.unshift = function(val){
-    
+    let newNode = new Node(val);
+
+    if(this.head == null){
+        this.head = newNode;
+        this.tail = this.head
+    }else{
+        newNode.next = this.head;
+        this.head.prev = newNode;
+        this.head = newNode;
+    }
+    this.length++
+    return this;
+
 }
 
 DoublyLinkedList.prototype.insert = function(index, val){
+    if(0 > index && index > this.length){
+        return ;
+    }
+    let newNode = new Node(val)
+    let currentNode = this.head;
+    let counter = 0
+    while(currentNode){
+        if(counter == index - 1){
+            break;
+        }
+        counter++
+        currentNode = currentNode.next;
+    }
+    newNode.next = currentNode.next;
+    currentNode.next.prev = newNode;
+    currentNode.next = newNode
+    newNode.prev = currentNode;
+
+    this.length++
+    return this;
+        
     
 }
 
 
 DoublyLinkedList.prototype.getNode = function(index){
-   
+    if(0 > index && index > this.length){ 
+        return undefined;
+    }
+    
+    let currentNode = this.head;
+    let counter = 0;
+
+   while(currentNode){
+       if(counter === index ){
+           break;
+       }
+       counter++;
+       currentNode = currentNode.next;
+   }
+   return currentNode;
 }
 
 DoublyLinkedList.prototype.get = function(index){
-    
+
+    let node = this.getNode(index);
+
+    return node ? node.val : null;
+
 }
 
 DoublyLinkedList.prototype.set = function(index, val){
-    
+    let node = this.getNode(index);
+
+    if(node){
+        node.val = val;
+        return true;
+    }
+    return false;
+}
+
+DoublyLinkedList.prototype.remove = function(index){
+    if(0 > index || index> this.length) return undefined;
+
+    //    let secondLast = this.getNode(this.length - 2)
+    //    let thirdLast = this.getNode(this.length - 3)
+    let removedNode = null
+    if(this.length == 1){
+       removedNode = this.unshift();
+    }else{
+    //     secondLast = this.tail
+    //     secondLast = null
+    //     secondLast.prev = thirdLast
+    // }
+    // this.length--;
+    // return 
+     let previousNode = this.getNode(index - 1)
+     removedNode = previousNode.next;
+     previousNode.next = previousNode.next.next
+     removedNode.next = null
+    }
+    this.length--;
+    return removedNode
 }
 
 DoublyLinkedList.prototype.pop = function(){
+    // if(this.length == 0) return undefined
+
+    // this.tail.prev = this.tail
+    // this.tail.next = null
+    // this.length--;
+    let node = this.remove(this.length - 1);
+    return node ? node.val : undefined;
     
 }
 
 DoublyLinkedList.prototype.shift = function(){
+    if(!this.head) return undefined;
     
+    let temp = this.head;
+    this.head = this.head.next;
+    temp.next = null;
+
+    this.length--;
+    return temp.val;
+ 
 }
 
-DoublyLinkedList.prototype.remove = function(index){
-    
-}
 
 DoublyLinkedList.prototype.reverse = function(){
     

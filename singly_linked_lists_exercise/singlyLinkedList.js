@@ -16,9 +16,9 @@ function SinglyLinkedList(array = []) {
 }
 
 SinglyLinkedList.prototype.push = function(val) {
-   let newNode = new Node(val);
+   let newNode = new Node(val); // make new node with the node function
 
-   if(this.head === null){
+   if(this.head === null){ // check if the list is empty ((by looking if it has head or not ))
         this.head = newNode;
         this.tail = this.head;
    }else{
@@ -156,4 +156,20 @@ SinglyLinkedList.prototype.pop = function() {
 
 SinglyLinkedList.prototype.reverse = function() {
 
+    
+    let prev = null 
+    let current = this.head
+    let next = null
+
+    while(current !=null){
+        next = this.head.next;
+        current.next = prev;
+        prev = current;
+        current = next; 
+   }
+   current = this.head;
+   return this;
+
+
+         
 }
